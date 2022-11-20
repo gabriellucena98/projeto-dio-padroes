@@ -23,7 +23,6 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Iterable<Cliente> buscarTodos() {
-        // Buscar todos os Clientes.
         return clienteRepository.findAll();
     }
 

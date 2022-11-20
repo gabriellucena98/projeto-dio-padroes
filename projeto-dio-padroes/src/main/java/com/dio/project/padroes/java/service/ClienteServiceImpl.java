@@ -1,7 +1,7 @@
 package com.dio.project.padroes.java.service;
 
-import com.dio.project.padroes.java.error.NotFoundException;
 import com.dio.project.padroes.java.error.ClienteAlreadyExistsException;
+import com.dio.project.padroes.java.error.NotFoundException;
 import com.dio.project.padroes.java.model.Cliente;
 import com.dio.project.padroes.java.model.Endereco;
 import com.dio.project.padroes.java.repository.ClienteRepository;
@@ -32,8 +32,9 @@ public class ClienteServiceImpl implements ClienteService {
 
         if (cliente.isPresent()) {
             return cliente.get();
+        } else {
+            throw new NotFoundException("Cliente não encontrado!");
         }
-        throw new NotFoundException("Cliente não encontrado!");
     }
 
     @Override
@@ -74,17 +75,24 @@ public class ClienteServiceImpl implements ClienteService {
         } else {
             throw new ClienteAlreadyExistsException("O cliente %s já existe no Banco de Dados".formatted(cliente.getNome()));
         }
-
-
     }
 
     private Boolean validarPeloNome(String nome) {
         Boolean validacao = false;
         for(Cliente cliente: clienteRepository.findAll()) {
-            if(cliente.getNome().equals(nome)) {
+            if (cliente.getNome().equals(nome)) {
                 validacao = true;
             }
         }
         return validacao;
+    }
+
+    public Cliente buscarPorNome(String nome) {
+        Iterable<Cliente> clientes = clienteRepository.findAll();
+        for (Cliente cliente : clientes) {
+            if (cliente.getNome().equals(nome)) {
+                return cliente;
+            }
+        } throw new NotFoundException("Cliente não encontrado!");
     }
 }

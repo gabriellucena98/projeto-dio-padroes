@@ -1,10 +1,8 @@
 package com.dio.project.padroes.java.controller;
 
-import com.dio.project.padroes.java.error.NotFoundException;
 import com.dio.project.padroes.java.model.Cliente;
 import com.dio.project.padroes.java.service.ClienteService;
 import com.dio.project.padroes.java.service.ClienteServiceImpl;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,25 +20,29 @@ public class ClienteRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<Cliente> buscarPorId(
+            @PathVariable Long id
+    ) {
         return ResponseEntity.ok(clienteServiceImpl.buscarPorId(id));
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> inserir(@RequestBody Cliente cliente) {
-        clienteService.inserir(cliente);
+    public ResponseEntity<Cliente> inserir(
+            @RequestBody Cliente cliente
+    ) {
+        clienteServiceImpl.inserir(cliente);
         return ResponseEntity.ok(cliente);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody Cliente cliente) {
-        clienteService.atualizar(id, cliente);
+        clienteServiceImpl.atualizar(id, cliente);
         return ResponseEntity.ok(cliente);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        clienteService.deletar(id);
+        clienteServiceImpl.deletar(id);
         return ResponseEntity.ok().build();
     }
 }

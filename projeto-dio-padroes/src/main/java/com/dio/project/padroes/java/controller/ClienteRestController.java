@@ -6,6 +6,9 @@ import com.dio.project.padroes.java.service.ClienteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/clientes")
 public class ClienteRestController {
@@ -56,5 +59,12 @@ public class ClienteRestController {
             @PathVariable String nome
     ) {
         return ResponseEntity.ok(clienteServiceImpl.buscarPorNome(nome));
+    }
+
+    @GetMapping("/cep/{cep}")
+    public ResponseEntity<List<Cliente>> buscarPorCep(
+            @PathVariable String cep
+    ) {
+        return ResponseEntity.ok(clienteServiceImpl.buscarPorCep(cep));
     }
 }

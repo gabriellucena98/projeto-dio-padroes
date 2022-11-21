@@ -9,6 +9,8 @@ import com.dio.project.padroes.java.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 @Service
 public class ClienteServiceImpl implements ClienteService {
@@ -94,5 +96,20 @@ public class ClienteServiceImpl implements ClienteService {
                 return cliente;
             }
         } throw new NotFoundException("Cliente não encontrado!");
+    }
+
+    public List<Cliente> buscarPorCep(String cep) {
+        Iterable<Cliente> clientes = clienteRepository.findAll();
+        List<Cliente> clientesFiltradosPorCep = new LinkedList<Cliente>();;
+        for (Cliente cliente : clientes) {
+            if (cliente.getEndereco().getCep().equals(cep)) {
+                clientesFiltradosPorCep.add(cliente);
+            }
+        }
+        if (!clientesFiltradosPorCep.isEmpty())
+            return clientesFiltradosPorCep;
+        else
+            throw new NotFoundException("Cliente não encontrado!");
+
     }
 }
